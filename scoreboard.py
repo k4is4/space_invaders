@@ -42,7 +42,8 @@ class Scoreboard:
 
     def check_highscore(self):
         if self.stats.score > self.stats.highscore:
-            # WRITE TO FILE
+            with open("highscore.txt", "w") as file:
+                file.write(str(self.stats.score))
             self.stats.highscore = self.stats.score
             self.prepare_highscore()
 

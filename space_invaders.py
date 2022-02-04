@@ -35,7 +35,7 @@ class SpaceInvaders:
         self.play_button = Button(self, "PLAY")
 
         self.stats = GameStats(self)
-        self.stats.highscore = int(self.get_highscore())
+        self.stats.highscore = self.get_highscore()
         self.sb = Scoreboard(self)
 
         self.setup_sounds()
@@ -59,7 +59,7 @@ class SpaceInvaders:
                 highscore = file.readline()
                 if not highscore:
                     highscore = 0
-                return highscore
+                return int(highscore)
         except:
             print("cannot open highscore file")
             raise
