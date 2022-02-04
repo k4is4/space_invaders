@@ -37,7 +37,7 @@ class Ship(Sprite):
         # Creates new bullet instance and adds it to the bullet group
         if len(self.game.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self.game)
-            random.choice(self.game.shooting_sounds).play()
+            self.game.shooting_sounds[0].play()
             self.game.bullets.add(new_bullet)
 
     def ship_hit(self):
