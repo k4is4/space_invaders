@@ -156,28 +156,10 @@ class SpaceInvaders:
             self.alien.create_fleet()
             self.settings.increase_speed()
 
-    def check_fleet_edges(self):
-        for alien in self.aliens.sprites():
-            if alien.check_edges():  # If an alien hits the wall
-                self.change_fleet_direction()
-                break
-
-    def change_fleet_direction(self):  # Drop the fleet and change direction
-        for alien in self.aliens:
-            alien.rect.y += self.settings.fleet_drop_speed
-        self.settings.fleet_direction *= -1
-
-    def check_aliens_bottom(self):
-        screen_rect = self.screen.get_rect()
-        for alien in self.aliens:
-            if alien.rect.bottom >= screen_rect.bottom:
-                self.ship.ship_hit()
-                break
-
     def update_aliens(self):
-        self.check_fleet_edges()
+        self.alien.check_fleet_edges()
         self.aliens.update()
-        self.check_aliens_bottom()
+        self.alien.check_aliens_bottom()
         # Check alien-ship collision
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self.ship.ship_hit()

@@ -51,6 +51,24 @@ class Alien(Sprite):
         alien.rect.y = alien_height + 2 * alien_height * row
         self.game.aliens.add(alien)
 
+    def check_fleet_edges(self):
+        for alien in self.game.aliens.sprites():
+            if alien.check_edges():  # If an alien hits the wall
+                self.change_fleet_direction()
+                break
+
+    def change_fleet_direction(self):  # Drop the fleet and change direction
+        for alien in self.game.aliens:
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
+    def check_aliens_bottom(self):
+        screen_rect = self.screen.get_rect()
+        for alien in self.game.aliens:
+            if alien.rect.bottom >= screen_rect.bottom:
+                self.game.ship.ship_hit()
+                break
+
     def update(self):
         self.x += self.settings.alien_speed * self.settings.fleet_direction
         self.rect.x = self.x
