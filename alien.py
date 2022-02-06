@@ -18,10 +18,38 @@ class Alien(Sprite):
         self.rect.y = self.rect.height
         self.x = float(self.rect.x)
 
+        self.game = game
+
     def check_edges(self):  # Returns True if alien hit the edge of the screen
         screen_rect = self.screen.get_rect()
         if self.rect.right >= screen_rect.right or self.rect.left <= 0:
             return True
+
+    def create_fleet(self):
+        alien = Alien(self.game)
+        alien_width, alien_height = alien.rect.size  # size = tuple(int x, int y)
+        ship_height = self.game.ship.rect.height
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        # Calculate how many aliens fit in a row including empty space
+        number_of_aliens_x = available_space_x // (2 * alien_width)
+
+        # Calculate y space; screen-height
+        available_space_y = self.settings.screen_height - 3 * alien_height - ship_height
+
+        number_of_aliens_y = available_space_y // (2 * alien_height)
+
+        # Create full fleet
+        for row in range(number_of_aliens_y):
+            for alien_number in range(number_of_aliens_x):
+                self.create_alien(alien_number, row)
+
+    def create_alien(self, alien_number, row):
+        alien = Alien(self.game)
+        alien_width, alien_height = alien.rect.size
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien_height + 2 * alien_height * row
+        self.game.aliens.add(alien)
 
     def update(self):
         self.x += self.settings.alien_speed * self.settings.fleet_direction

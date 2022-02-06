@@ -49,7 +49,7 @@ class Ship(Sprite):
             self.game.sb.prepare_ships()
             self.game.aliens.empty()
             self.game.bullets.empty()
-            self.game.create_fleet()
+            self.game.alien.create_fleet()
             self.center_ship()
             sleep(0.5)
         else:

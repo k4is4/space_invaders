@@ -31,7 +31,8 @@ class SpaceInvaders:
         self.aliens = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
         self.ui_text = UIText(self)
-        self.create_fleet()
+        self.alien = Alien(self)
+        self.alien.create_fleet()
         self.play_button = Button(self, "PLAY")
 
         self.stats = GameStats(self)
@@ -121,34 +122,8 @@ class SpaceInvaders:
             self.stats.game_active = True
             self.aliens.empty()
             self.bullets.empty()
-            self.create_fleet()
+            self.alien.create_fleet()
             self.ship.center_ship()
-
-    def create_fleet(self):
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size  # size = tuple(int x, int y)
-        ship_height = self.ship.rect.height
-        available_space_x = self.settings.screen_width - (2 * alien_width)
-        # Calculate how many aliens fit in a row including empty space
-        number_of_aliens_x = available_space_x // (2 * alien_width)
-
-        # Calculate y space; screen-height
-        available_space_y = self.settings.screen_height - 3 * alien_height - ship_height
-
-        number_of_aliens_y = available_space_y // (2 * alien_height)
-
-        # Create full fleet
-        for row in range(number_of_aliens_y):
-            for alien_number in range(number_of_aliens_x):
-                self.create_alien(alien_number, row)
-
-    def create_alien(self, alien_number, row):
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien_height + 2 * alien_height * row
-        self.aliens.add(alien)
 
     def update_bullets(self):
         self.bullets.update()  # Calls every instance's (in bullets) update method
@@ -178,7 +153,7 @@ class SpaceInvaders:
         # Check if no more aliens left -> we create a new fleet
         if not self.aliens:
             self.bullets.empty()
-            self.create_fleet()
+            self.alien.create_fleet()
             self.settings.increase_speed()
 
     def check_fleet_edges(self):
