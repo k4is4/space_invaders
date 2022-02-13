@@ -51,7 +51,7 @@ class Ship(Sprite):
             self.game.bullets.empty()
             self.game.alien.create_fleet()
             self.center_ship()
-            sleep(0.5)
+            sleep()
         else:
             self.game.stats.game_active = False
             pygame.mouse.set_visible(True)
