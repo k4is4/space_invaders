@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 import pygame
 import random
+import os.path
 
 
 class Alien(Sprite):

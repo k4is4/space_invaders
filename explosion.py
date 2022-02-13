@@ -24,7 +24,7 @@ class Explosion(Sprite):
             self.explosion_anim["alien"].append(img_alien)
 
             # ship explosion
-            img_ship = pygame.transform.scale(img, (120, 116))
+            img_ship = pygame.transform.scale(img, (180, 174))
             self.explosion_anim["ship"].append(img_ship)
 
     def set_explosion_center_and_object(self, center, obj):

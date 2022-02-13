@@ -8,7 +8,6 @@ from game_stats import GameStats
 from button import Button
 from explosion import Explosion
 from scoreboard import Scoreboard
-import os.path
 
 
 class SpaceInvaders:
@@ -65,19 +64,12 @@ class SpaceInvaders:
 
     def setup_sounds(self):
         pygame.mixer.music.load("sounds/music.wav")
-        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.set_volume(0.3)
 
-        self.shooting_sounds = []
-        sound_dir = os.path.join(os.path.dirname(__file__), "sounds")
-        for sound in ["laser.wav", "laser2.wav"]:
-            self.shooting_sounds.append(pygame.mixer.Sound(f"sounds/{sound}"))
+        self.shooting_sound = pygame.mixer.Sound("sounds/laser.wav")
+        self.shooting_sound.set_volume(0.1)
 
-        for s in self.shooting_sounds:
-            s.set_volume(0.5)
-
-        self.explosion_sound = pygame.mixer.Sound(
-            os.path.join(sound_dir, "explosion.wav")
-        )
+        self.explosion_sound = pygame.mixer.Sound("sounds/explosion.wav")
         self.explosion_sound.set_volume(0.1)
 
     def check_events(self):

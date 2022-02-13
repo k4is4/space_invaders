@@ -1,8 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
-from time import sleep
 from bullet import Bullet
-import random
 
 from explosion import Explosion
 
@@ -37,13 +35,14 @@ class Ship(Sprite):
         # Creates new bullet instance and adds it to the bullet group
         if len(self.game.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self.game)
-            self.game.shooting_sounds[0].play()
+            self.game.shooting_sound.play()
             self.game.bullets.add(new_bullet)
 
     def ship_hit(self):
         explosion = Explosion(self.game)
         explosion.set_explosion_center_and_object(self.rect.center, "ship")
         self.game.explosions.add(explosion)
+        self.game.explosion_sound.play()
         if self.game.stats.ships_left > 0:
             self.game.stats.ships_left -= 1
             self.game.sb.prepare_ships()
@@ -51,7 +50,6 @@ class Ship(Sprite):
             self.game.bullets.empty()
             self.game.alien.create_fleet()
             self.center_ship()
-            sleep()
         else:
             self.game.stats.game_active = False
             pygame.mouse.set_visible(True)
