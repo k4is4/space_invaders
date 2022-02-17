@@ -7,7 +7,7 @@ class Settings:
         self.screen_width = 1100
         self.screen_height = 600
         self.bg_color = (0, 0, 0)
-        self.fullscreen = True
+        self.fullscreen = False
 
         # Ship settings
         self.ship_speed = 1

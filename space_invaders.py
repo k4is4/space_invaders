@@ -2,7 +2,6 @@ import sys
 import pygame
 from settings import Settings
 from ship import Ship
-from game_texts import UIText
 from alien import Alien
 from game_stats import GameStats
 from button import Button
@@ -11,7 +10,8 @@ from scoreboard import Scoreboard
 
 
 class SpaceInvaders:
-    # Class to manage game assets and behaviour
+    """Manage game assets and behaviour"""
+
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
@@ -22,12 +22,10 @@ class SpaceInvaders:
         self.settings.check_fullscreen()
         self.bg_image = pygame.image.load("images/starfield.png").convert_alpha()
         pygame.display.set_caption("Space Invaders")
-        self.bg_color = self.settings.bg_color  # RGB sulkeissa
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()  # Creates empty sprite group
         self.aliens = pygame.sprite.Group()
         self.explosions = pygame.sprite.Group()
-        self.ui_text = UIText(self)
         self.alien = Alien(self)
         self.alien.create_fleet()
         self.play_button = Button(self, "PLAY")
@@ -156,7 +154,7 @@ class SpaceInvaders:
 
     def update_screen(self):
         if not self.stats.game_active:
-            self.screen.fill(self.bg_color)
+            self.screen.fill(self.settings.bg_color)
             self.play_button.draw_button()
         else:
             # self.screen.fill(self.bg_color)
