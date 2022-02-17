@@ -7,6 +7,7 @@ from game_stats import GameStats
 from button import Button
 from explosion import Explosion
 from scoreboard import Scoreboard
+from events import Events
 
 
 class SpaceInvaders:
@@ -22,6 +23,7 @@ class SpaceInvaders:
         self.settings.check_fullscreen()
         self.bg_image = pygame.image.load("images/starfield.png").convert_alpha()
         pygame.display.set_caption("Space Invaders")
+        self.events = Events(self)
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()  # Creates empty sprite group
         self.aliens = pygame.sprite.Group()
@@ -39,7 +41,7 @@ class SpaceInvaders:
 
         # Main loop
         while True:
-            self.check_events()  # Watch for keyboard and mouse events
+            self.events.check_events()  # Watch for keyboard and mouse events
             if self.stats.game_active:  # Only when game is active
                 self.ship.update()
                 self.update_bullets()
@@ -56,49 +58,6 @@ class SpaceInvaders:
 
         self.explosion_sound = pygame.mixer.Sound("sounds/explosion.wav")
         self.explosion_sound.set_volume(0.1)
-
-    def check_events(self):
-        # Responses to keypresses and mouse events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                self.check_keydown_events(event)
-            elif event.type == pygame.KEYUP:
-                self.check_keyup_events(event)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self.check_play_button(mouse_pos)
-
-    def check_keydown_events(self, event):
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = True
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = True
-        elif event.key == pygame.K_SPACE:
-            self.ship.fire_bullet()
-        elif event.key == pygame.K_q:
-            sys.exit()
-
-    def check_keyup_events(self, event):
-        if event.key == pygame.K_RIGHT:
-            self.ship.moving_right = False
-        elif event.key == pygame.K_LEFT:
-            self.ship.moving_left = False
-
-    def check_play_button(self, mouse_pos):
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.stats.game_active:
-            pygame.mouse.set_visible(False)
-            self.settings.setup_dynamic_settings()
-            self.stats.reset_stats()
-            self.sb.prepare_score()
-            self.sb.prepare_ships()
-            self.stats.game_active = True
-            self.aliens.empty()
-            self.bullets.empty()
-            self.alien.create_fleet()
-            self.ship.center_ship()
 
     def update_bullets(self):
         self.bullets.update()  # Calls every instance's (in bullets) update method
