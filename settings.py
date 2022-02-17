@@ -13,10 +13,10 @@ class Settings:
         self.ship_limit = 1
 
         # Bullet settings
-        self.bullet_width = 300
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
-        self.bullets_allowed = 5
+        self.bullets_allowed = 3
 
         # Alien settings
         self.fleet_drop_speed = 10  # How many pixels drop after hitting the wall

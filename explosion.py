@@ -1,8 +1,11 @@
 from pygame.sprite import Sprite
 import pygame
+import os.path
 
 
 class Explosion(Sprite):
+    """Class to create explosion animation"""
+
     def __init__(self, game):
         super().__init__()
         self.explosion_anim = {}
@@ -16,7 +19,9 @@ class Explosion(Sprite):
         for i in range(9):
             filename = f"regularExplosion0{i}.png"
             img = pygame.image.load(
-                "images/explosion_animation/" + filename
+                os.path.join(
+                    os.path.dirname(__name__), "images", "explosion_animation", filename
+                )
             ).convert_alpha()
 
             # alien explosion
@@ -35,12 +40,10 @@ class Explosion(Sprite):
 
     def update(self):
         now = pygame.time.get_ticks()
-        if now - self.last_update > self.frame_rate:  # if 50ms has passed
+        if now - self.last_update > self.frame_rate:  # If 50ms has passed
             self.last_update = now
             self.frame += 1
             if self.frame == len(self.explosion_anim[self.obj]):
                 self.kill()
             else:
-                center = self.rect.center
                 self.image = self.explosion_anim[self.obj][self.frame]
-                self.rect.center = center

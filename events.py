@@ -3,11 +3,12 @@ import sys
 
 
 class Events:
+    """Class to response to keypresses and mouse events"""
+
     def __init__(self, game):
         self.game = game
 
     def check_events(self):
-        # Responses to keypresses and mouse events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -26,7 +27,7 @@ class Events:
             self.game.ship.moving_left = True
         elif event.key == pygame.K_SPACE:
             self.game.ship.fire_bullet()
-        elif event.key == pygame.K_q:
+        elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             sys.exit()
 
     def check_keyup_events(self, event):

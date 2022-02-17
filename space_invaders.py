@@ -11,7 +11,7 @@ import os.path
 
 
 class SpaceInvaders:
-    """Manage game assets and behaviour"""
+    """Class to manage game assets and behaviour"""
 
     def __init__(self):
         pygame.init()
@@ -43,13 +43,13 @@ class SpaceInvaders:
 
         # Main loop
         while True:
-            self.events.check_events()  # Watch for keyboard and mouse events
-            if self.stats.game_active:  # Only when game is active
+            self.events.check_events()
+            if self.stats.game_active:
                 self.ship.update()
                 self.update_bullets()
                 self.update_aliens()
                 self.explosions.update()
-            self.update_screen()  # Update screen anyyway
+            self.update_screen()
 
     def setup_sounds(self):
         sound_dir = os.path.join(os.path.dirname(__name__), "sounds")
@@ -75,12 +75,14 @@ class SpaceInvaders:
         self.check_bullet_alien_collisions()
 
     def check_bullet_alien_collisions(self):
-        # Bullet-alien collision
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
         if collisions:
             self.explosion_sound.play()
-            for aliens in collisions.values():  # if we hit many aliens at the same time
+
+            for aliens in collisions.values():
+                # If we hit many aliens at the same time with wide bullet
                 self.stats.score += self.settings.alien_points * len(aliens)
+
                 for alien in aliens:
                     explosion = Explosion(self)
                     explosion.set_explosion_center_and_object(
@@ -90,7 +92,7 @@ class SpaceInvaders:
             self.sb.prepare_score()
             self.sb.check_highscore()
 
-        # Check if no more aliens left -> we create a new fleet
+        # Check if no more aliens left -> Create a new fleet
         if not self.aliens:
             self.bullets.empty()
             self.alien.create_fleet()
@@ -100,6 +102,7 @@ class SpaceInvaders:
         self.alien.check_fleet_edges()
         self.aliens.update()
         self.alien.check_aliens_bottom()
+
         # Check alien-ship collision
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self.ship.ship_hit()
@@ -108,11 +111,11 @@ class SpaceInvaders:
         if not self.stats.game_active:
             self.screen.fill(self.settings.bg_color)
             self.play_button.draw_button()
+            if self.stats.game_over:
+                self.stats.show_game_over()
         else:
-            # self.screen.fill(self.bg_color)
             self.screen.blit(self.bg_image, self.screen.get_rect())
             self.ship.blitme()
-            # self.ui_text.update_ship_position_text()
             for bullet in self.bullets.sprites():
                 bullet.draw_bullet()
             self.aliens.draw(self.screen)

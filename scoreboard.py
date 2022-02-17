@@ -1,6 +1,7 @@
 import pygame.font
 from pygame.sprite import Group
 from ship import Ship
+import os.path
 
 
 class Scoreboard:
@@ -42,7 +43,9 @@ class Scoreboard:
     def check_highscore(self):
         if self.stats.score > self.stats.highscore:
             try:
-                with open("highscore.txt", "w") as file:
+                with open(
+                    os.path.join(os.path.dirname(__file__), "highscore.txt"), "w"
+                ) as file:
                     file.write(str(self.stats.score))
                 self.stats.highscore = self.stats.score
                 self.prepare_highscore()
