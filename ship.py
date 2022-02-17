@@ -3,6 +3,7 @@ from pygame.sprite import Sprite
 from bullet import Bullet
 
 from explosion import Explosion
+import os.path
 
 
 class Ship(Sprite):
@@ -12,7 +13,9 @@ class Ship(Sprite):
         self.screen_rect = game.screen.get_rect()
         self.settings = game.settings
         # Load the ship image and get its rect:
-        self.image = pygame.image.load("images/ship_transparent.png").convert_alpha()
+        self.image = pygame.image.load(
+            os.path.join(os.path.dirname(__name__), "images", "ship.png")
+        ).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.screen_rect.midbottom
         # Store a decimal value for the ship's horizontal position

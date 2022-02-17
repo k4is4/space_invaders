@@ -9,9 +9,10 @@ class Alien(Sprite):
     def __init__(self, game):
         super().__init__()
         self.screen = game.screen
-        self.image = pygame.image.load("images/Alien.png").convert_alpha()
-        # self.image.set_colorkey((230, 230, 230))
-        self.image.set_alpha(random.randint(1, 255))
+        self.image = pygame.image.load(
+            os.path.join(os.path.dirname(__name__), "images", "Alien.png")
+        ).convert_alpha()
+        self.image.set_alpha(random.randint(1, 255))  # Make aliens transparent
         self.settings = game.settings
 
         self.rect = self.image.get_rect()

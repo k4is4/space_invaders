@@ -1,4 +1,3 @@
-import sys
 import pygame
 from settings import Settings
 from ship import Ship
@@ -8,6 +7,7 @@ from button import Button
 from explosion import Explosion
 from scoreboard import Scoreboard
 from events import Events
+import os.path
 
 
 class SpaceInvaders:
@@ -21,7 +21,9 @@ class SpaceInvaders:
             (self.settings.screen_width, self.settings.screen_height)
         )
         self.settings.check_fullscreen()
-        self.bg_image = pygame.image.load("images/starfield.png").convert_alpha()
+        self.bg_image = pygame.image.load(
+            os.path.join(os.path.dirname(__name__), "images", "starfield.png")
+        ).convert_alpha()
         pygame.display.set_caption("Space Invaders")
         self.events = Events(self)
         self.ship = Ship(self)
@@ -50,13 +52,17 @@ class SpaceInvaders:
             self.update_screen()  # Update screen anyyway
 
     def setup_sounds(self):
-        pygame.mixer.music.load("sounds/music.wav")
+        sound_dir = os.path.join(os.path.dirname(__name__), "sounds")
+
+        pygame.mixer.music.load(os.path.join(sound_dir, "music.wav"))
         pygame.mixer.music.set_volume(0.3)
 
-        self.shooting_sound = pygame.mixer.Sound("sounds/laser.wav")
+        self.shooting_sound = pygame.mixer.Sound(os.path.join(sound_dir, "laser.wav"))
         self.shooting_sound.set_volume(0.1)
 
-        self.explosion_sound = pygame.mixer.Sound("sounds/explosion.wav")
+        self.explosion_sound = pygame.mixer.Sound(
+            os.path.join(sound_dir, "explosion.wav")
+        )
         self.explosion_sound.set_volume(0.1)
 
     def update_bullets(self):
