@@ -29,11 +29,9 @@ class SpaceInvaders:
         self.alien = Alien(self)
         self.alien.create_fleet()
         self.play_button = Button(self, "PLAY")
-
         self.stats = GameStats(self)
-        self.stats.highscore = self.get_highscore()
+        self.stats.highscore = self.stats.get_highscore()
         self.sb = Scoreboard(self)
-
         self.setup_sounds()
 
     def run_game(self):
@@ -48,17 +46,6 @@ class SpaceInvaders:
                 self.update_aliens()
                 self.explosions.update()
             self.update_screen()  # Update screen anyyway
-
-    def get_highscore(self):
-        try:
-            with open("highscore.txt") as file:
-                highscore = file.readline()
-                if not highscore:
-                    highscore = 0
-                return int(highscore)
-        except:
-            print("cannot open highscore file")
-            raise
 
     def setup_sounds(self):
         pygame.mixer.music.load("sounds/music.wav")
@@ -104,9 +91,9 @@ class SpaceInvaders:
         if button_clicked and not self.stats.game_active:
             pygame.mouse.set_visible(False)
             self.settings.setup_dynamic_settings()
+            self.stats.reset_stats()
             self.sb.prepare_score()
             self.sb.prepare_ships()
-            self.stats.reset_stats()
             self.stats.game_active = True
             self.aliens.empty()
             self.bullets.empty()

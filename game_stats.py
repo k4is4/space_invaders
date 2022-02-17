@@ -8,3 +8,14 @@ class GameStats:
     def reset_stats(self):
         self.ships_left = self.settings.ship_limit
         self.score = 0
+
+    def get_highscore(self):
+        try:
+            with open("highscore.txt") as file:
+                highscore = file.readline()
+                if not highscore:
+                    highscore = 0
+                return int(highscore)
+        except FileNotFoundError:
+            print("Cannot open highscore file")
+            raise
